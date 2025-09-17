@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Kelas XII RPL 1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #bbdefb;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn:hover {
+            background-color: #1976d2;
+        }
+        
+        .btn:disabled {
+            background-color: #90caf9;
+            cursor: not-allowed;
+        }
+        
+        #qr-reader {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border: 2px dashed #2196f3;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #qr-result {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .success {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .error {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #bbdefb;
+        }
+        
+        th {
+            background-color: #bbdefb;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .status-hadir {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .status-absen {
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .time-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        #qr-display {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #2196f3;
+            border-radius: 8px;
+            background-color: #f5f9ff;
+        }
+        
+        #qr-code-img {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        
+        #qr-timer {
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .time-display {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Absensi Kelas XII RPL 1</h1>
+            <p class="subtitle">SMK Karya Bhakti Brebes - Tahun Ajaran 2025/2026</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-qrcode"></i> QR Code Absensi</h2>
+                <select id="student-select">
+                    <option value="">Pilih Nama Siswa</option>
+                </select>
+                <div id="qr-display">
+                    <div id="qr-code-img">Pilih nama siswa untuk melihat QR Code</div>
+                    <div id="qr-timer"></div>
+                    <div class="time-display" id="current-time"></div>
+                </div>
+                <button id="startScan" class="btn">
+                    <i class="fas fa-camera"></i> Scan QR untuk Absen
+                </button>
+                <div id="qr-reader"></div>
+                <div id="qr-result"></div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-table"></i> Rekap Absensi</h2>
+                <div style="max-height: 500px; overflow-y: auto;">
+                    <table id="rekapTable">
+                        <thead>
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Status</th>
+                                <th>Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rekapBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
