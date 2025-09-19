@@ -1,6 +1,8 @@
 # absensqr
 ini sudah fix barangkali mau coba
 absensi khusus pelajar
+# perlu di ingat ini proyek setengah jadi
+semisal sudah absen ya sudah tidak refresh ke absensi awal( permanen absen ) nanti saya fix lagi buat setiap hari absennya
 # langkah pertama
 buat folder bernama absensi-app
 # download file/folder ini berbentuk zip
